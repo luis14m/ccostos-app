@@ -1,5 +1,5 @@
 
-export interface Ccosto {
+export interface ccosto {
   id: string;
   nombre: string;
   codigo: string;
@@ -9,21 +9,21 @@ export interface Ccosto {
 }
 
 
-export interface CcostoCreate {
+export interface ccostoCreate {
   nombre: string;
   codigo: string;
   fecha_inicio: string;
   fecha_termino: string;
 }
 
-export interface CcostoFormData {
+export interface ccostoFormData {
   nombre: string;
   codigo: string;
   fecha_inicio: string;
   fecha_termino: string;
 }
 
-export const initialCcostoFormData: CcostoFormData = {
+export const initialccostoFormData: ccostoFormData = {
   nombre: '',
   codigo: '',
   fecha_inicio: '',
