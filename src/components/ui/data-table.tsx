@@ -16,18 +16,20 @@ import {
   TableRow,
 } from "@/components/ui/table"
 
-interface DataTableProps<TData, TValue> {
-  columns: ColumnDef<TData, TValue>[]
-  data: TData[]
+export interface DataTableProps<TData> {
+  data: TData[];
+  columns: (refreshData: () => Promise<void>) => ColumnDef<TData, any>[];
 }
 
-export function DataTable<TData, TValue>({
+export function DataTable<TData>({
   columns,
   data,
-}: DataTableProps<TData, TValue>) {
+}: DataTableProps<TData>) {
   const table = useReactTable({
     data,
-    columns,
+    columns: columns(async () => {
+      // Implement your refresh data logic here
+    }),
     getCoreRowModel: getCoreRowModel(),
   })
 
@@ -69,7 +71,7 @@ export function DataTable<TData, TValue>({
           ) : (
             <TableRow>
               <TableCell colSpan={columns.length} className="h-24 text-center">
-                No results.
+                Sin Datos.
               </TableCell>
             </TableRow>
           )}
