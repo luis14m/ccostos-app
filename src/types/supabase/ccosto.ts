@@ -2,7 +2,7 @@ export interface CCosto {
   id: string;
   nombre: string;
   codigo: string;
-  //estado: string;
+  estado: estado;
   fecha_inicio: string;
   fecha_termino: string;
   created_at: string;
@@ -33,3 +33,8 @@ export interface CreateCCostoResponse {
   error?: string;
   data?: CCosto;
 }
+export type estado = 
+'Ejecucion' | 
+'Suspendido' | 
+'Terminado'
+;

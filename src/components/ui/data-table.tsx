@@ -29,6 +29,7 @@ export function DataTable<TData>({
     data,
     columns: columns(async () => {
       // Implement your refresh data logic here
+      
     }),
     getCoreRowModel: getCoreRowModel(),
   })

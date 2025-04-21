@@ -2,11 +2,10 @@ import Navbar from '@/components/Navbar'
 import React from 'react'
 import { redirect } from 'next/navigation';
 import { createSupabaseClient } from '@/utils/supabase/server';
-import { DataTable } from '@/components/ui/data-table';
 import { getCCostos } from '@/services/ccostoService';
 import { CCosto } from '@/types/supabase/ccosto';
 import { createColumns } from './columns';
-import ListTable from '../../components/list-table';
+import ListTable from '../../components/ccostos/list-table';
 
 export default async function page() {
 

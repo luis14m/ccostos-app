@@ -30,7 +30,7 @@ const formSchema = z.object({
   fecha_termino: z.string().min(1, { message: "La fecha de término es requerida" })
 });
 
-export default function CCostoForm() {
+export default function CreateForm() {
   const [loading, setLoading] = useState(false);
   const [mensaje, setMensaje] = useState<string>("");
   const router = useRouter();

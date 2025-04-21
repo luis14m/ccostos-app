@@ -36,7 +36,7 @@ export default function Navbar() {
               <NavigationMenuItem>
                 <NavigationMenuLink className={navigationMenuTriggerStyle()}>
                   <h1 className="text-2xl font-bold text-gray-900">
-                    Rinde-App
+                    CCostos-App
                   </h1>
                 </NavigationMenuLink>
               </NavigationMenuItem>

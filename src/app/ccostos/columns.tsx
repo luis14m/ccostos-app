@@ -4,7 +4,7 @@ import { Pencil, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 import { useState } from "react";
-import { EditForm } from "@/components/edit-form";
+import { EditForm } from "@/components/ccostos/edit-form";
 
 import { CCosto } from "@/types/supabase/ccosto";
 import { deleteCCosto, updateCCosto } from "@/services/ccostoService";
@@ -101,7 +101,7 @@ export const createColumns = (refreshData: () => Promise<void>): ColumnDef<CCost
                 try {
                   await updateCCosto(updatedCCosto.id, updatedCCosto);
                   handleClose();
-                  refreshData(); // Replace window.location.reload() with refreshData
+                  refreshData(); // 
                 } catch (error) {
                   console.error("Error al actualizar:", error);
                   alert("Error al actualizar la rendición");
