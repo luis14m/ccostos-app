@@ -1,43 +1,41 @@
-import Navbar from '@/components/Navbar'
-import React from 'react'
-import { redirect } from 'next/navigation';
-import { createSupabaseClient } from '@/utils/supabase/server';
-import { getCCostos } from '@/services/ccostoService';
-import { CCosto } from '@/types/supabase/ccosto';
-import { createColumns } from './columns';
-import ListTable from '../../components/ccostos/list-table';
+import NavBar from "@/components/nav-bar";
+import React from "react";
+import { redirect } from "next/navigation";
+import { createSupabaseClient } from "@/utils/supabase/server";
+import { getCCostos } from "@/services/ccostoService";
 
-export default async function page() {
+import ListTable from "@/components/ccostos/list-table";
 
-const supabase = await createSupabaseClient();
-const {
-  data: { user },
-} = await supabase.auth.getUser();
+export default async function CCostosPage() {
+  const supabase = await createSupabaseClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
-if (!user) {
-  redirect("/login");
-}
+  if (!user) {
+    redirect("/login");
+  }
 
-try {
-  const ccostos = await getCCostos();
+  try {
+    const ccostos = await getCCostos();
 
-  return (
-    <div className="flex-1 w-full flex flex-col gap-12 p-8">
-      <div className="container mx-auto">
-        
-        <Navbar />
-        <br />
-        <br />
-        <h1 className="text-2xl-center font-bold" >Centros de Costos</h1>
-        <ListTable<CCosto>
-          data={ccostos}    
-          columns={createColumns} // Pasamos la función directamente, no su ejecución
-        />
+    return (
+      <div className="flex-1 w-full flex flex-col gap-12 p-8">
+        <NavBar />
+        <div className="container mx-auto border-2 border-gray-300 p-4">
+          
+          <div className="mt-16 bg-gray-100 p-4 my-4">
+            <h1 className="text-2xl font-bold text-center">Listado de Centro de Costos</h1>
+          </div>
+          <ListTable
+            data={ccostos}
+          />
+        </div>
       </div>
-    </div>
-  );
-} catch (error) {
-  console.error("Error fetching ccostos:", error);
+    );
+  } catch (error) {
+    console.error("Error fetching ccostos:", error);
 
-  throw error;
+    throw error;
+  }
 }

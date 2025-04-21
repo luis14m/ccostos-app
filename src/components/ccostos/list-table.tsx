@@ -1,28 +1,33 @@
-"use client"
+"use client";
 
-import { useState, useCallback } from "react";
-import {
-  DataTable,
-  DataTableProps
-} from "@/components/ui/data-table"
+import { useState, useCallback, useMemo } from "react";
+import { DataTable } from "@/components/ui/data-table";
 import { getCCostos } from "@/services/ccostoService";
+import { createColumns } from "@/app/ccostos/columns";
+import { CCosto } from "@/types/supabase/ccosto";
 
-export default function ListTable<TData>({ data, columns }: DataTableProps<TData>) {
-  const [tableData, setTableData] = useState<TData[]>(data);
+type ListTableProps = {
+  data: CCosto[];
+};
+
+export default function ListTable({ data }: ListTableProps) {
+  const [tableData, setTableData] = useState<CCosto[]>(data);
 
   const refreshData = useCallback(async () => {
     const newData = await getCCostos();
-    setTableData(newData as TData[]);
+    setTableData(newData);
   }, []);
 
+  // Use useMemo to memoize columns with refreshData dependency
+  const columns = useMemo(() => createColumns(refreshData), [refreshData]);
+
   return (
-    <div className="rounded-md border">
-      <DataTable 
-        data={tableData} 
-        columns={columns} // columns ya es una función que toma refreshData
-      />
-    </div>
-  )
+    
+        <DataTable 
+          data={tableData} 
+          columns={() => columns} // Pass memoized columns directly
+        />
+      
+  
+  );
 }
-
-

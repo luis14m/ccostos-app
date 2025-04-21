@@ -1,19 +1,49 @@
 "use server";
 import { createSupabaseClient } from "@/utils/supabase/server";
-import { CCosto, CCostoCreate, CreateCCostoResponse } from "@/types/supabase/ccosto";
+import { CCosto, CCostoCreate, ccostoResponse } from "@/types/supabase/ccosto";
 
-  export async function createCCosto(CCosto: CCostoCreate): Promise<CreateCCostoResponse> {
-    const supabase = await createSupabaseClient();
+  export async function createCCosto(ccosto: CCostoCreate): Promise<ccostoResponse> {
+    try {
+      const supabase = await createSupabaseClient();
+      const { data: { user } } = await supabase.auth.getUser();
+      
+      if (!user) {
+        return {
+          success: false,
+          error: 'User not authenticated'
+        };
+      }
+
+
     const { data, error } = await supabase
       .from("ccostos")
-      .insert([CCosto])
+      .insert([{
+        ...ccosto,
+        user_id: user.id,
+        created_at: new Date().toISOString()
+      }])
+      .select()
       .single();
+
+      if (error) {
+        console.error('Error creating ccosto:', error);
+        return {
+          success: false,
+          error: error.message
+        };
+      }
   
-    if (error) {
-      return { success: false, error: error.message };
+      return {
+        success: true,
+        data
+      };
+    } catch (error) {
+      console.error('Error in creaCCosto:', error);
+      return {
+        success: false,
+        error: error instanceof Error ? error.message : 'Unknown error occurred'
+      };
     }
-  
-    return { success: true, data };
   }
 
   export async function getCCostos(): Promise<CCosto[]> {
@@ -28,7 +58,7 @@ import { CCosto, CCostoCreate, CreateCCostoResponse } from "@/types/supabase/cco
       .from('ccostos')
       .select('*')
       .eq('user_id', user.id)
-      .order('created_at', { ascending: false });
+      .order('nombre', { ascending: true });
   
     if (error) throw error;
     return data || [];
@@ -57,8 +87,7 @@ import { CCosto, CCostoCreate, CreateCCostoResponse } from "@/types/supabase/cco
     }
   }
   
-  export async function updateCCosto(id: string, CCosto: Partial<CCosto>): Promise<void> {
-    
+  export async function updateCCosto(id: string, ccosto: Partial<CCosto>): Promise<void> {
     const supabase = await createSupabaseClient();
     const { data: { user } } = await supabase.auth.getUser();
     
@@ -69,8 +98,9 @@ import { CCosto, CCostoCreate, CreateCCostoResponse } from "@/types/supabase/cco
     try {
       const { error } = await supabase
         .from('ccostos')
-        .update(CCosto)
-        .eq('id', id);
+        .update(ccosto)
+        .eq('id', id)
+        .eq('user_id', user.id);
   
       if (error) throw error;
     } catch (error) {
@@ -93,5 +123,4 @@ import { CCosto, CCostoCreate, CreateCCostoResponse } from "@/types/supabase/cco
       throw error;
     } 
   }
-  
-  
+

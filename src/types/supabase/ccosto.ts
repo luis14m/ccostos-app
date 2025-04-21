@@ -2,9 +2,10 @@ export interface CCosto {
   id: string;
   nombre: string;
   codigo: string;
-  estado: estado;
   fecha_inicio: string;
   fecha_termino: string;
+  estado: string;
+  
   created_at: string;
 }
 
@@ -13,6 +14,7 @@ export interface CCostoCreate {
   codigo: string;
   fecha_inicio: string;
   fecha_termino: string;
+  estado: string;
 }
 
 export interface CCostoFormData {
@@ -20,6 +22,7 @@ export interface CCostoFormData {
   codigo: string;
   fecha_inicio: string;
   fecha_termino: string;
+  estado: string;
 }
 
 export const initialCCostoFormData: CCostoFormData = {
@@ -27,14 +30,16 @@ export const initialCCostoFormData: CCostoFormData = {
   codigo: "",
   fecha_inicio: "",
   fecha_termino: "",
+  estado: "",
 };
-export interface CreateCCostoResponse {
+export interface ccostoResponse {
   success: boolean;
-  error?: string;
+  
   data?: CCosto;
+  error?: string;
 }
-export type estado = 
-'Ejecucion' | 
-'Suspendido' | 
+export const Estado = [
+'Ejecucion',
+'Suspendido',
 'Terminado'
-;
+] as const;
