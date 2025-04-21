@@ -47,6 +47,7 @@ import { CCosto, CCostoCreate, ccostoResponse } from "@/types/supabase/ccosto";
   }
 
   export async function getCCostos(): Promise<CCosto[]> {
+    
     const supabase = await createSupabaseClient();
     const { data: { user } } = await supabase.auth.getUser();
     

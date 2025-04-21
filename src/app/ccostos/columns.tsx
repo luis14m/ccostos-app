@@ -42,7 +42,12 @@ export const createColumns = (refreshData: () => Promise<void>): ColumnDef<CCost
     {
       id: "created_at",
       accessorKey: "created_at",
-      header: "Fecha Creación",
+      header: "Creado en",
+      cell: ({ row }) => {
+        const date = new Date(row.getValue("created_at"));
+        // Use a fixed format instead of toLocaleString()
+        return date.toISOString().replace('T', ' ').split('.')[0];
+      }
     },
     {
       id: "acciones",
